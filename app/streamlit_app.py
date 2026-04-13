@@ -29,7 +29,7 @@ pages = [
 pg = st.navigation(pages, position="hidden")
 
 # --- SIDEBAR BRANDING (ABOVE TABS) ---
-st.sidebar.image(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "uca_logo.jpg"), use_container_width=True)
+st.sidebar.image(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "uca_logo.jpg"), width=200)
 st.sidebar.markdown("""
 ### AI as a Neutral Arbiter
 **GDCAU 2026**
