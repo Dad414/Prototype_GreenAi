@@ -10,7 +10,7 @@ from src.plot_utils import create_gauge, apply_theme
 from src.styles import kpi_box, inject_theme
 
 st.title("🎛️ Counterfactual Scenario Engine")
-st.markdown("Adjust institutional drivers to simulate future water stress policy outcomes.")
+st.markdown("Adjust socioeconomic and institutional drivers to simulate future water stress policy outcomes.")
 
 try:
     df = load_master_panel(processed=True)
@@ -36,7 +36,7 @@ try:
             base_X = base_row[features]
             base_pred = float(rfr.predict(base_X.to_frame().T)[0])
             
-            st.markdown("### 2. Institutional Levers")
+            st.markdown("### 2. Socioeconomic & Institutional Levers")
             st.markdown('<div class="glass-card">', unsafe_allow_html=True)
             # Deltas
             gov_chg = st.slider("Governance Index (Δ)", -0.4, 0.4, 0.0, step=0.01)
