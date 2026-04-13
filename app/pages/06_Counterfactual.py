@@ -44,15 +44,25 @@ try:
             wua_chg = st.slider("WUA Coverage (Δ)", -0.5, 0.5, 0.0, step=0.01)
             emp_chg = st.slider("Agri Employment Share (Δ)", -0.2, 0.2, 0.0, step=0.01)
             st.markdown('</div>', unsafe_allow_html=True)
+
+            st.markdown("### 3. Environmental Drivers")
+            st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+            temp_chg = st.slider("Temperature (Δ °C)", -4.0, 4.0, 0.0, step=0.1)
+            precip_chg = st.slider("Precipitation (Δ mm)", -200, 200, 0, step=10)
+            moist_chg = st.slider("Soil Moisture (Δ)", -0.1, 0.1, 0.0, step=0.01)
+            st.markdown('</div>', unsafe_allow_html=True)
             
             deltas = {}
             if gov_chg != 0: deltas['water_governance_index'] = gov_chg
             if tariff_chg != 0: deltas['water_tariff_index'] = tariff_chg
             if wua_chg != 0: deltas['wua_coverage'] = wua_chg
             if emp_chg != 0: deltas['agri_employment_share'] = emp_chg
+            if temp_chg != 0: deltas['annual_mean_temp_c'] = temp_chg
+            if precip_chg != 0: deltas['annual_total_precip_mm'] = precip_chg
+            if moist_chg != 0: deltas['soil_moisture_mean'] = moist_chg
         
     with col2:
-        st.markdown("### 3. Projected Outcome")
+        st.markdown("### 4. Projected Outcome")
         
         if not deltas:
             st.plotly_chart(create_gauge(base_pred, title="Baseline Predicted WSI"), use_container_width=True)
