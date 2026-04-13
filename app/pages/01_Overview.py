@@ -1,7 +1,9 @@
 import streamlit as st
 import plotly.express as px
-from src.data_loader import load_master_panel
 from src import config
+from src.data_loader import load_master_panel
+from src.styles import kpi_box
+from src.plot_utils import apply_theme
 
 st.title("🗺️ Overview & Regional Status")
 
@@ -11,11 +13,6 @@ yr = st.slider("Select Year", int(df['year'].min()), int(df['year'].max()), int(
 df_yr = df[df['year'] == yr]
 
 st.markdown("### WSI Distribution by Province")
-# For a quick geographical representation without explicit complex GeoJSON reloading,
-# we can use a scatter_geo or a simple bar chart. 
-# The user's spec allowed scattergeo. Since we don't have perfect lat/lons right here, 
-# let's map coordinate proxies or fall back to an aesthetic bar chart that demonstrates 
-# the 9 spatial units clearly if geo isn't perfectly mapped.
 
 # Mapping simple coordinates for the 9 provinces
 COORDS = {
@@ -31,13 +28,15 @@ df_yr_geo['lon'] = df_yr_geo['province'].map(lambda x: COORDS.get(x, (0,0))[1])
 fig = px.scatter_mapbox(
     df_yr_geo, lat="lat", lon="lon", color="WSI", size="population_total_thousand",
     hover_name="province", hover_data=["country", "WSI_category"],
-    color_continuous_scale="RdYlGn_r", zoom=6, center={"lat": 40.5, "lon": 71.5},
-    mapbox_style="carto-positron", title=f"Water Stress Index ({yr})"
+    color_continuous_scale="Viridis", zoom=6, center={"lat": 40.5, "lon": 71.5},
+    mapbox_style="carto-darkmatter", title=f"Water Stress Index ({yr})"
 )
 fig.update_layout(height=500, margin={"r":0,"t":40,"l":0,"b":0})
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(apply_theme(fig), use_container_width=True)
 
-st.markdown("### Country Summary Cards")
+st.divider()
+
+st.markdown("### 📊 Country Performance Metrics")
 c1, c2, c3 = st.columns(3)
 
 for idx, country in enumerate(['Kyrgyzstan', 'Tajikistan', 'Uzbekistan']):
@@ -47,7 +46,6 @@ for idx, country in enumerate(['Kyrgyzstan', 'Tajikistan', 'Uzbekistan']):
     
     with col:
         st.markdown(f"#### <span style='color:{color}'>{country}</span>", unsafe_allow_html=True)
-        st.metric("Mean WSI", f"{c_data['WSI'].mean():.3f}")
-        st.metric("Total Population", f"{c_data['population_total_thousand'].sum():,.0f}k")
-        st.metric("SDG 6.4.2 Stress", f"{c_data['sdg_642_water_stress_pct'].mean():.1f}%")
-        st.metric("WUA Coverage", f"{c_data['wua_coverage'].mean()*100:.1f}%")
+        kpi_box("Mean WSI", f"{c_data['WSI'].mean():.3f}")
+        kpi_box("SDG 6.4.2 Stress", f"{c_data['sdg_642_water_stress_pct'].mean():.1f}%")
+        kpi_box("WUA Coverage", f"{c_data['wua_coverage'].mean()*100:.1f}%")

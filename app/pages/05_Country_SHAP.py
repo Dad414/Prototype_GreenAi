@@ -2,6 +2,8 @@ import streamlit as st
 import numpy as np
 import plotly.express as px
 from src import config
+from src.data_loader import load_master_panel
+from src.plot_utils import apply_theme
 
 st.title("⚖️ Country-Specific SHAP Decompositions")
 
@@ -42,17 +44,12 @@ try:
                     labels={'x': 'Mean |SHAP|', 'y': ''}
                 )
                 fig.update_traces(marker_color=color)
-                fig.update_layout(
-                    template="plotly_white", 
-                    height=400,
-                    margin=dict(l=0, r=0, t=40, b=0),
-                    title_font=dict(size=14, color=color)
-                )
                 
                 with cols[idx]:
-                    # Callout top feature
-                    st.markdown(f"<span style='color:{color}; font-weight:bold'>Top Driver:</span> {top_feats[-1]}", unsafe_allow_html=True)
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.markdown(f"<div class='glass-card' style='padding:15px'>", unsafe_allow_html=True)
+                    st.markdown(f"<span style='color:{color}; font-weight:bold'>{full_name}</span>", unsafe_allow_html=True)
+                    st.plotly_chart(apply_theme(fig, 350), use_container_width=True)
+                    st.markdown(f"</div>", unsafe_allow_html=True)
 
     st.markdown("""
     ---

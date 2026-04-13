@@ -6,12 +6,12 @@ import os
 
 # ─── PATHS ─────────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(BASE_DIR, "Data")
+DATA_DIR = os.path.join(BASE_DIR, "data")
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 
 # Raw and processed datasets
-MASTER_PANEL = os.path.join(DATA_DIR, "ferghana_master_panel.xlsx")
-PROCESSED_PANEL = os.path.join(DATA_DIR, "ferghana_master_panel_processed.csv")
+MASTER_PANEL = os.path.join(DATA_DIR, "raw", "ferghana_master_panel.xlsx")
+PROCESSED_PANEL = os.path.join(DATA_DIR, "processed", "ferghana_master_panel_processed.csv")
 
 # Asset dumps
 MODEL_WSI_PATH = os.path.join(OUTPUT_DIR, "models", "rf_wsi.pkl")

@@ -1,8 +1,9 @@
 import streamlit as st
 import numpy as np
 import plotly.express as px
-import plotly.graph_objects as go
 from src import config
+from src.data_loader import load_master_panel
+from src.plot_utils import apply_theme
 
 st.title("🔍 Global SHAP Explainability")
 
@@ -31,8 +32,10 @@ try:
         title="Top 15 Global Drivers of Water Stress",
         color=sorted_shaps, color_continuous_scale="Viridis"
     )
-    fig.update_layout(template="plotly_white", coloraxis_showscale=False)
-    st.plotly_chart(fig, use_container_width=True)
+    
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.plotly_chart(apply_theme(fig), use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("""
     **Interpretation**:

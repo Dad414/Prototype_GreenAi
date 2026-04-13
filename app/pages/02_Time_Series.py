@@ -1,7 +1,8 @@
 import streamlit as st
 import plotly.express as px
-from src.data_loader import load_master_panel
 from src import config
+from src.data_loader import load_master_panel
+from src.plot_utils import apply_theme
 
 st.title("📈 Time Series Explorer")
 st.markdown("Explore trends in environmental and institutional drivers over the 2016–2024 period.")
@@ -12,8 +13,11 @@ df = load_master_panel(processed=True)
 num_cols = df.select_dtypes(include=['float64', 'int64']).columns.tolist()
 num_cols = [c for c in num_cols if c not in ['year', 'country_code']]
 
-col_sel = st.selectbox("Select Variable to Explore", num_cols, index=num_cols.index('WSI') if 'WSI' in num_cols else 0)
-countries = st.multiselect("Select Countries", ['Kyrgyzstan', 'Tajikistan', 'Uzbekistan'], default=['Kyrgyzstan', 'Tajikistan', 'Uzbekistan'])
+c_sel, c_cnt = st.columns([1, 1])
+with c_sel:
+    col_sel = st.selectbox("Select Variable to Explore", num_cols, index=num_cols.index('WSI') if 'WSI' in num_cols else 0)
+with c_cnt:
+    countries = st.multiselect("Select Countries", ['Kyrgyzstan', 'Tajikistan', 'Uzbekistan'], default=['Kyrgyzstan', 'Tajikistan', 'Uzbekistan'])
 
 if countries:
     df_filt = df[df['country'].isin(countries)]
@@ -27,9 +31,9 @@ if countries:
         title=f"Trend of {col_sel} (2016-2024)"
     )
     
-    # Minimalistic theme
-    fig.update_layout(template="plotly_white", hovermode="x unified")
-    st.plotly_chart(fig, use_container_width=True)
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.plotly_chart(apply_theme(fig), use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
     
     with st.expander("Show raw data"):
         st.dataframe(df_trend)
