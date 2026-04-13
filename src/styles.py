@@ -7,10 +7,11 @@ def inject_theme():
     """
     st.markdown("""
     <style>
-        /* Main background: Deep Forest Gradient */
-        .stApp {
-            background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%);
-            color: #f8fafc;
+        /* Main background: Deep Forest Gradient (Dark Mode) */
+        @media (prefers-color-scheme: dark) {
+            .stApp {
+                background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%);
+            }
         }
 
         /* Glassmorphism Card Style */
@@ -23,21 +24,22 @@ def inject_theme():
             margin: 10px 0;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
+        
+        /* Scope light text only to custom glass cards */
+        .glass-card p, .glass-card span, .glass-card label, .glass-card div {
+            color: #e2e8f0 !important;
+        }
 
         /* Titles and High Contrast Text */
         h1, h2, h3 {
-            color: #34d399 !important; /* Mint Green */
+            color: #10b981 !important; /* Mint Green */
             font-weight: 800 !important;
             letter-spacing: -0.02em !important;
         }
         
         h4, h5, h6, b, strong {
-            color: #ffffff !important;
+            color: #34d399 !important;
             font-weight: 700 !important;
-        }
-
-        p, span, label, div {
-            color: #e2e8f0; /* Soft slate white for readability */
         }
 
         /* Buttons and Interactive Elements */

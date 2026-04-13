@@ -46,5 +46,8 @@ st.sidebar.markdown("""
 *Khaliq Dad, Asif Khan, Saidboqirsho Alimadadshoev*  
 *University of Central Asia*
 """)
+st.sidebar.divider()
+st.sidebar.markdown("##### 📱 Mobile Access")
+st.sidebar.image(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "qrcode.png"), caption="Scan to access app", width=150)
 
 pg.run()
