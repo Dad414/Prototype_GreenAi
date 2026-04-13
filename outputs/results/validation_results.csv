@@ -1,0 +1,5 @@
+Test,Mean_R2,Type,Note
+Random 5-Fold CV,0.978461513509548,Baseline Accuracy,Measures raw predictive power across randomized splits.
+Time Split (Train <= 2021),0.9096031070947198,Temporal Robustness,Tests model performance on unseen future years.
+Leave-One-Province-Out,0.587269498408959,Spatial Generalization,Tests if model can predict an entirely unseen province.
+Country Holdout (Leave-One-Out),-13.562421741847873,Institutional Heterogeneity Check,CRITICAL: Negative R² expected. Empirical proof that water stress drivers break across institutional boundaries.
